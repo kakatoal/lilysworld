@@ -140,8 +140,17 @@ class ParticleSystem {
     this._pixelCanvas.height = ph;
 
     const pc = this._pixelCanvas.getContext('2d');
-    pc.filter = 'grayscale(1) contrast(1.15)';
+    // Draw without filter — Safari does not support ctx.filter
     pc.drawImage(this._video, 0, 0, pw, ph);
+
+    // Manual grayscale + contrast (works on all browsers including Safari/iOS)
+    const imageData = pc.getImageData(0, 0, pw, ph);
+    const d = imageData.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const gray = Math.min(255, (0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]) * 1.15);
+      d[i] = d[i + 1] = d[i + 2] = gray;
+    }
+    pc.putImageData(imageData, 0, 0);
 
     this.ctx.save();
     this.ctx.imageSmoothingEnabled = false;
