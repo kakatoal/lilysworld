@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Particle World</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+</head>
+<body>
+
+  <!-- Always-on particle canvas (background layer) -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Camera feed (shown during game) -->
+  <video id="camera" autoplay playsinline muted></video>
+
+  <!-- ── Welcome Screen ─────────────────────────────── -->
+  <div id="welcome-screen">
+    <div class="welcome-content">
+      <h1 class="title">PARTICLE<br>WORLD</h1>
+      <div class="divider"></div>
+      <p class="subtitle">When did you last really look at the objects around you?<br>Now is the time.<br>Open your camera and start exploring.</p>
+      <button id="start-btn">START SCANNING</button>
+      <p id="loading-msg"></p>
+    </div>
+  </div>
+
+  <!-- ── HUD (shown during game) ────────────────────── -->
+  <div id="hud">
+    <div id="scan-count">SCANNED: <span id="count">0</span> / 10</div>
+    <div id="scan-dots"></div>
+  </div>
+
+  <!-- ── Complete Screen ────────────────────────────── -->
+  <div id="complete-screen">
+    <div class="complete-content">
+      <h1 class="complete-title">GOAL ACHIEVED!</h1>
+      <p class="complete-sub">You've discovered 10 objects in the Particle World!</p>
+      <div id="discovered-list"></div>
+      <button id="restart-btn">SCAN AGAIN</button>
+    </div>
+  </div>
+
+  <script src="js/particles.js"></script>
+  <script src="js/detector.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

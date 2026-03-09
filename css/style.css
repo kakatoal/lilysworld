@@ -1,0 +1,172 @@
+/* ── Reset & Base ─────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0c0c0c;
+  overflow: hidden;
+  font-family: 'Courier New', Courier, monospace;
+  color: #fff;
+  user-select: none;
+}
+
+/* ── Particle Canvas ──────────────────────────────── */
+#particle-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── Camera Feed ──────────────────────────────────── */
+#camera {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  display: none;
+}
+
+/* ── Welcome Screen ───────────────────────────────── */
+#welcome-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.welcome-content {
+  text-align: left;
+  max-width: 560px;
+  padding: 3rem 2.5rem;
+}
+
+.title {
+  font-size: clamp(2.2rem, 7vw, 3.8rem);
+  font-weight: 400;
+  letter-spacing: 0.45em;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 2.5rem;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-bottom: 2rem;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.9;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.02em;
+}
+
+#loading-msg {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.08em;
+  min-height: 1rem;
+}
+
+/* ── Button — solid white, pixel-notched corners ──── */
+button {
+  background: #fff;
+  border: none;
+  color: #000;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  padding: 0.9rem 2.8rem;
+  cursor: pointer;
+  /* Pixel / mosaic notched corners */
+  clip-path: polygon(
+    0px 10px, 10px 10px, 10px 0px,
+    calc(100% - 10px) 0px, calc(100% - 10px) 10px, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%,
+    10px 100%, 10px calc(100% - 10px), 0px calc(100% - 10px)
+  );
+  transition: opacity 0.15s;
+}
+
+button:hover  { opacity: 0.85; }
+button:active { opacity: 0.6; }
+
+/* ── HUD ──────────────────────────────────────────── */
+#hud {
+  position: fixed;
+  top: 1.4rem;
+  right: 1.6rem;
+  z-index: 20;
+  text-align: right;
+  display: none;
+  pointer-events: none;
+}
+
+#scan-count {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: #fff;
+}
+
+#scan-dots {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.1em;
+}
+
+/* ── Complete Screen ──────────────────────────────── */
+#complete-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background: #0c0c0c;
+  padding: 3rem 2.5rem;
+}
+
+.complete-title {
+  font-size: clamp(1.8rem, 6vw, 3.2rem);
+  font-weight: 400;
+  letter-spacing: 0.4em;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.complete-sub {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.04em;
+}
+
+#discovered-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  max-width: 580px;
+  margin-bottom: 3rem;
+}
+
+.obj-tag {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
