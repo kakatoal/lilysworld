@@ -3,11 +3,12 @@
 // the win condition (10 unique objects).
 class Game {
   constructor() {
-    this.GOAL          = 10;
-    this.scanned       = new Set();   // unique labels discovered
-    this.currentLabel  = null;        // label currently being shown
-    this.noDetectCount = 0;           // frames with no detection (for scatter delay)
-    this.NO_DETECT_THRESHOLD = 2;     // frames before we scatter particles
+    this.GOAL             = 10;
+    this.scanned          = new Set();   // unique labels discovered
+    this.currentLabel     = null;        // label currently being shown
+    this.noDetectCount    = 0;           // frames with no detection (for scatter delay)
+    this.NO_DETECT_THRESHOLD = 2;        // frames before we scatter particles
+    this.discoveryLineIndex = 0;         // which Lily line to use next (0–9)
   }
 
   /**
@@ -47,7 +48,9 @@ class Game {
       return { type: 'complete', label, list: [...this.scanned] };
     }
 
-    return { type: 'form', label, isNew };
+    // Advance discovery line index for each new object found
+    const lineIndex = isNew ? this.discoveryLineIndex++ : -1;
+    return { type: 'form', label, isNew, lineIndex };
   }
 
   get count()       { return this.scanned.size; }
@@ -56,7 +59,8 @@ class Game {
 
   reset() {
     this.scanned.clear();
-    this.currentLabel  = null;
-    this.noDetectCount = 0;
+    this.currentLabel       = null;
+    this.noDetectCount      = 0;
+    this.discoveryLineIndex = 0;
   }
 }

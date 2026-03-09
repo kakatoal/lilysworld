@@ -90,7 +90,7 @@ class ParticleSystem {
     this._running    = false;
     this._video      = null;       // camera feed for pixelated B&W rendering
     this._pixelCanvas = null;      // offscreen canvas for downscale
-    this.PIXEL_SIZE  = 7;          // block size: higher = more pixelated
+    this.PIXEL_SIZE  = 11;         // block size: higher = more pixelated
   }
 
   /** Attach to a <canvas> element and start the render loop. */
