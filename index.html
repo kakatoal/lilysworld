@@ -13,6 +13,9 @@
   <!-- Always-on particle canvas (background layer) -->
   <canvas id="particle-canvas"></canvas>
 
+  <!-- Cross animation canvas (Part 3 visual effect) -->
+  <canvas id="cross-canvas"></canvas>
+
   <!-- Camera feed (used by particle system, visually hidden) -->
   <video id="camera" autoplay playsinline muted></video>
 
@@ -21,30 +24,38 @@
     <div class="welcome-content">
       <h1 class="title">LILY'S<br>WORLD</h1>
       <div class="divider"></div>
-      <p class="subtitle">"world" — what is it, really? How do you define it?<br><br>Designer: Carl Liu</p>
+      <p class="subtitle">"world" — what is it, really?
+How do you define it?</p>
       <button id="start-btn">START GAME</button>
+      <button id="lang-btn">中文</button>
       <p id="loading-msg"></p>
     </div>
   </div>
 
-  <!-- ── HUD (shown during game) ────────────────────── -->
-  <div id="hud">
-    <div id="scan-count">SCANNED: <span id="count">0</span> / 10</div>
-    <div id="scan-dots"></div>
-  </div>
-
   <!-- ── Lily Dialog Box ────────────────────────────── -->
-  <div id="dialog-box">
+  <div id="dialog-box" class="hidden">
     <div class="dialog-name" id="dialog-name">LILY</div>
     <div class="dialog-text" id="dialog-text"></div>
+    <div class="dialog-choices" id="dialog-choices"></div>
+    <div class="tap-hint" id="tap-hint">tap to continue</div>
+  </div>
+
+  <!-- ── HUD (hidden in new flow) ───────────────────── -->
+  <div id="hud">
+    <div id="scan-count">SCANNED: <span id="count">0</span> / 5</div>
+    <div id="scan-dots"></div>
   </div>
 
   <!-- ── Blackout Overlay (random eye pain events) ───── -->
   <div id="blackout"></div>
 
-  <!-- ── Ending Overlay (flash / black / thank you) ─── -->
+  <!-- ── Fade Overlay (Part 2→3 transition) ──────────── -->
+  <div id="fade-overlay"></div>
+
+  <!-- ── Ending Overlay (thank you screen) ────────────── -->
   <div id="ending-overlay"></div>
 
+  <script src="js/i18n.js"></script>
   <script src="js/particles.js"></script>
   <script src="js/detector.js"></script>
   <script src="js/game.js"></script>

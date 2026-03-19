@@ -19,6 +19,16 @@ body {
   pointer-events: none;
 }
 
+/* ── Cross Animation Canvas ───────────────────────── */
+#cross-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 42;
+  pointer-events: none;
+}
+
 /* ── Camera Feed ──────────────────────────────────── */
 #camera {
   position: fixed;
@@ -69,6 +79,7 @@ body {
   line-height: 1.9;
   margin-bottom: 2.5rem;
   letter-spacing: 0.02em;
+  white-space: pre-line;
 }
 
 #loading-msg {
@@ -90,7 +101,6 @@ button {
   letter-spacing: 0.25em;
   padding: 0.9rem 2.8rem;
   cursor: pointer;
-  /* Pixel / mosaic notched corners */
   clip-path: polygon(
     0px 10px, 10px 10px, 10px 0px,
     calc(100% - 10px) 0px, calc(100% - 10px) 10px, 100% 10px,
@@ -98,12 +108,27 @@ button {
     10px 100%, 10px calc(100% - 10px), 0px calc(100% - 10px)
   );
   transition: opacity 0.15s;
+  display: block;
 }
 
 button:hover  { opacity: 0.85; }
 button:active { opacity: 0.6; }
 
-/* ── HUD ──────────────────────────────────────────── */
+/* ── Language Toggle ──────────────────────────────── */
+#lang-btn {
+  margin-top: 0.9rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.72rem;
+  font-weight: 400;
+  padding: 0.5rem 1.5rem;
+  letter-spacing: 0.2em;
+  clip-path: none;
+}
+#lang-btn:hover { border-color: rgba(255, 255, 255, 0.6); color: #fff; }
+
+/* ── HUD (hidden in new flow) ─────────────────────── */
 #hud {
   position: fixed;
   top: 1.4rem;
@@ -114,9 +139,7 @@ button:active { opacity: 0.6; }
   pointer-events: none;
 }
 
-#scan-count {
-  display: none;
-}
+#scan-count { display: none; }
 
 #scan-dots {
   margin-top: 0.4rem;
@@ -125,58 +148,95 @@ button:active { opacity: 0.6; }
   letter-spacing: 0.1em;
 }
 
-/* ── Dialog Box (Lily) ────────────────────────────── */
+/* ── Dialog Box (dark, bottom-center) ────────────────*/
 #dialog-box {
   position: fixed;
-  top: 24px;
-  left: 24px;
-  width: 320px;
-  background: #fff;
-  color: #000;
-  font-family: 'Courier New', Courier, monospace;
-  padding: 22px 22px 20px 24px;
-  z-index: 90;
-  display: none;
-  /* Cut top-left corner for sticky-note fold effect */
-  clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 20px);
-  /* Smooth transition when moving to center */
-  transition: top 0.8s ease, left 0.8s ease, transform 0.8s ease, width 0.8s ease;
+  bottom: clamp(1.2rem, 4vh, 2.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92vw, 540px);
+  z-index: 45;
+  background: rgba(10, 10, 10, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: clamp(1rem, 3vw, 1.8rem) clamp(1.2rem, 4vw, 2.2rem);
+  backdrop-filter: blur(10px);
+  transition: opacity 0.4s ease, transform 0.5s ease;
 }
 
-/* Folded-corner triangle */
-#dialog-box::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-top: 20px solid #b0b0b0;
-  border-right: 20px solid transparent;
-}
-
-/* Centered state (ending sequence) */
+/* Centered state (Part 3 ending) */
 #dialog-box.centered {
   top: 50%;
+  bottom: auto;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
+}
+
+/* Shrink-out before cross animation */
+#dialog-box.shrink {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.05);
 }
 
 .dialog-name {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  color: #000;
-  margin-bottom: 8px;
+  font-size: 0.62rem;
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
 }
 
 .dialog-text {
-  font-size: 13px;
-  line-height: 1.65;
-  color: #111;
-  min-height: 2.5em;
+  font-size: clamp(0.88rem, 2.4vw, 1.05rem);
+  color: #fff;
+  line-height: 1.8;
+  white-space: pre-line;
+  min-height: 2em;
 }
 
-/* ── Blackout Overlay ─────────────────────────────── */
+/* ── Choice Buttons ───────────────────────────────── */
+.dialog-choices {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.3rem;
+  flex-wrap: wrap;
+}
+
+.choice-btn {
+  flex: 1;
+  min-width: 110px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  clip-path: none;
+  transition: background 0.15s;
+  display: block;
+  text-align: center;
+}
+.choice-btn:hover  { background: rgba(255, 255, 255, 0.16); }
+.choice-btn:active { background: rgba(255, 255, 255, 0.25); }
+
+/* ── Tap Hint ─────────────────────────────────────── */
+.tap-hint {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.16em;
+  margin-top: 1rem;
+  text-align: right;
+  animation: blink 1.8s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.25; }
+  50%       { opacity: 0.8; }
+}
+
+/* ── Blackout Overlay (eye pain effect) ───────────── */
 #blackout {
   position: fixed;
   inset: 0;
@@ -185,7 +245,22 @@ button:active { opacity: 0.6; }
   display: none;
 }
 
-/* ── Ending Overlay ───────────────────────────────── */
+/* ── Fade Overlay (Part 2→3 transition) ───────────── */
+#fade-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+}
+#fade-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── Ending Overlay (thank you screen) ────────────── */
 #ending-overlay {
   position: fixed;
   inset: 0;
@@ -195,7 +270,12 @@ button:active { opacity: 0.6; }
   justify-content: center;
   background: #0c0c0c;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 0.85rem;
-  letter-spacing: 0.25em;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(0.9rem, 3.5vw, 1.6rem);
+  letter-spacing: 0.35em;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  line-height: 2;
 }
+
+/* ── Utility ──────────────────────────────────────── */
+.hidden { display: none !important; }

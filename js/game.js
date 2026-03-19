@@ -3,7 +3,7 @@
 // the win condition (10 unique objects).
 class Game {
   constructor() {
-    this.GOAL             = 10;
+    this.GOAL             = 5;
     this.scanned          = new Set();   // unique labels discovered
     this.currentLabel     = null;        // label currently being shown
     this.noDetectCount    = 0;           // frames with no detection (for scatter delay)
